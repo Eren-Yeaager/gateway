@@ -255,6 +255,10 @@ return (
       >
         Create
       </Button>
+      <Widget
+        src="${config_account}/widget/components.modals.InfoAlert"
+        props={{ open: true }}
+      />
     </div>
   </div>
 );
