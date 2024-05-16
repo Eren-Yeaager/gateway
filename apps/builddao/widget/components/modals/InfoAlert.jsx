@@ -2,38 +2,13 @@ const { Modal, Button } = VM.require("${config_account}/widget/components") || {
   Modal: () => <></>,
   Button: () => <></>,
 };
-const [display, setDisplay] = useState(true);
-const [copied, setCopied] = useState(false);
-const url =
-  "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
 
-const handleCopy = () => {
-  clipboard
-    .writeText(url)
-    .then(() => {
-      setCopied(true);
-    })
-    .catch((error) => {
-      console.error("Failed to copy:", error);
-    });
-};
-useEffect(() => {
-  let timeoutId;
+const InfoPopup = ({ open, setInfoPopup, onCopyButtonClick, copied }) => {
+  const url =
+    "https://www.nearbuilders.org/buildhub.near/widget/app?page=feed&tab=proposals";
 
-  if (copied) {
-    timeoutId = setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  }
-
-  return () => {
-    clearTimeout(timeoutId);
-  };
-}, [copied]);
-
-return (
-  <div>
-    <Modal open={display} onOpenChange={setDisplay} hideCloseBtn={true}>
+  return (
+    <Modal open={open} onOpenChange={setInfoPopup} hideCloseBtn={true}>
       <div>
         <p
           style={{
@@ -49,11 +24,11 @@ return (
           </h5>
         </p>
         <div style={{ textAlign: "center", marginTop: "10px" }}>
-          <Button variant="outline" onClick={handleCopy}>
+          <Button variant="outline" onClick={onCopyButtonClick}>
             Copy
           </Button>
 
-          <Button variant="outline" onClick={() => setDisplay(false)}>
+          <Button variant="outline" onClick={() => setInfoPopup(false)}>
             Cancel
           </Button>
         </div>
@@ -62,5 +37,6 @@ return (
         </div>
       </div>
     </Modal>
-  </div>
-);
+  );
+};
+return { InfoPopup };
